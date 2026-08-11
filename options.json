@@ -1,0 +1,38 @@
+{
+    "Major_Category": [
+        "Arts",
+        "Business",
+        "Humanities",
+        "Medical",
+        "STEM"
+    ],
+    "Year_of_Study": [
+        "Freshman",
+        "Graduate",
+        "Junior",
+        "Senior",
+        "Sophomore"
+    ],
+    "Primary_Use_Case": [
+        "Copywriting/Drafting",
+        "Debugging/Troubleshooting",
+        "Direct_Answer_Generation",
+        "Ideation",
+        "Summarizing_Reading"
+    ],
+    "Prompt_Engineering_Skill": [
+        "Advanced",
+        "Beginner",
+        "Intermediate"
+    ],
+    "Institutional_Policy": [
+        "Actively_Encouraged",
+        "Allowed_With_Citation",
+        "Strict_Ban"
+    ],
+    "Burnout_Risk_Level": [
+        "High",
+        "Low",
+        "Medium"
+    ]
+}
