@@ -1,4 +1,3 @@
-
 import json
 import joblib
 import pandas as pd
@@ -42,6 +41,50 @@ def load_options():
     ) as file:
 
         return json.load(file)
+
+
+# ============================================================
+# NUMERIC SCALE CONFIG
+# ============================================================
+# Maps keywords found in a feature name to (min, max, step, default).
+# The first keyword that matches the feature name wins, so put more
+# specific keywords first. Anything that matches nothing falls back
+# to DEFAULT_SCALE.
+
+SCALE_RULES = [
+    # keyword                 min     max     step    default
+    ("gpa",                   0.0,    4.0,    0.01,   2.5),
+    ("age",                   14,     60,     1,      18),
+    ("hour",                  0,      24,     1,      6),
+    ("attendance",            0,      100,    1,      75),
+    ("percent",               0,      100,    1,      50),
+    ("score",                 0,      100,    1,      50),
+    ("rating",                1,      5,      1,      3),
+    ("year",                  1,      6,      1,      1),
+    ("semester",              1,      12,     1,      1),
+    ("credit",                0,      30,     1,      15),
+    ("count",                 0,      20,     1,      0),
+    ("number",                0,      20,     1,      0),
+]
+
+DEFAULT_SCALE = (0, 100, 1, 50)
+
+
+def get_scale(feature_name: str):
+    """
+    Return (min_value, max_value, step, default_value) for a given
+    numeric feature, based on keyword matching against its name.
+    """
+
+    lowered = feature_name.lower()
+
+    for keyword, lo, hi, step, default in SCALE_RULES:
+
+        if keyword in lowered:
+
+            return lo, hi, step, default
+
+    return DEFAULT_SCALE
 
 
 # ============================================================
@@ -145,19 +188,24 @@ for feature in feature_names:
 
 
     # --------------------------------------------------------
-    # NUMERICAL FEATURE
+    # NUMERICAL FEATURE (now a scaled slider)
     # --------------------------------------------------------
 
     else:
 
-        user_input[feature] = st.number_input(
+        lo, hi, step, default = get_scale(feature)
+
+        user_input[feature] = st.slider(
 
             feature.replace(
                 "_",
                 " "
             ).title(),
 
-            value=0.0
+            min_value=lo,
+            max_value=hi,
+            value=default,
+            step=step
         )
 
 
@@ -236,6 +284,7 @@ if predict_button:
         )
 
 
+
         st.metric(
             "Predicted Post-GPA",
             f"{prediction:.2f}"
@@ -298,4 +347,3 @@ st.divider()
 st.caption(
     "AI for Business • Student Post-GPA Prediction"
 )
-
