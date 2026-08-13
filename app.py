@@ -75,6 +75,27 @@ SCALE_RULES = [
 DEFAULT_SCALE = (0, 100, 1, 50)
 
 
+# Feature names containing any of these keywords are treated as booleans
+# (True/False) and rendered as a checkbox instead of a slider/number input.
+BOOLEAN_KEYWORDS = [
+    "paid",
+    "is_",
+    "has_",
+    "subscription",
+]
+
+
+def is_boolean_feature(feature_name: str) -> bool:
+    """
+    Return True if the feature looks like a True/False field based on
+    its name.
+    """
+
+    lowered = feature_name.lower()
+
+    return any(keyword in lowered for keyword in BOOLEAN_KEYWORDS)
+
+
 def get_scale(feature_name: str):
     """
     Return (min_value, max_value, step, default_value) for a given
@@ -193,7 +214,26 @@ for feature in feature_names:
 
 
     # --------------------------------------------------------
-    # NUMERICAL FEATURE (now a scaled slider)
+    # BOOLEAN FEATURE (checkbox: True / False)
+    # --------------------------------------------------------
+
+    elif is_boolean_feature(feature):
+
+        checked = st.checkbox(
+
+            feature.replace(
+                "_",
+                " "
+            ).title(),
+
+            value=False
+        )
+
+        user_input[feature] = bool(checked)
+
+
+    # --------------------------------------------------------
+    # NUMERICAL FEATURE (scaled slider)
     # --------------------------------------------------------
 
     else:
