@@ -53,9 +53,12 @@ def load_options():
 
 SCALE_RULES = [
     # keyword                 min     max     step    default
+    # -- dataset-specific (checked first, most specific match wins) --
+    ("tool_diversity",        1,      5,      1,      1),
+    ("weekly_hours",          0,      40,     1,      10),
     ("gpa",                   0.0,    4.0,    0.01,   2.5),
+    ("hour",                  0,      40,     1,      10),
     ("age",                   14,     60,     1,      18),
-    ("hour",                  0,      24,     1,      6),
     ("attendance",            0,      100,    1,      75),
     ("percent",               0,      100,    1,      50),
     ("score",                 0,      100,    1,      50),
