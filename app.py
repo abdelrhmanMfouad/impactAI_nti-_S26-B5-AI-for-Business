@@ -56,6 +56,8 @@ SCALE_RULES = [
     # -- dataset-specific (checked first, most specific match wins) --
     ("tool_diversity",        1,      5,      1,      1),
     ("weekly_hours",          0,      40,     1,      10),
+    ("anxiety",               1,      10,     1,      5),
+    ("dependency",            1,      10,     1,      5),
     ("gpa",                   0.0,    4.0,    0.01,   2.5),
     ("hour",                  0,      40,     1,      10),
     ("age",                   14,     60,     1,      18),
